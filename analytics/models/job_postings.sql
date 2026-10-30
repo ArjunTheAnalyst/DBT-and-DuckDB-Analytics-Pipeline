@@ -1,3 +1,5 @@
+-- Remove Scraper Errors and Select Core Columns
+
 SELECT
 	job_id,
 	job_title,
@@ -12,3 +14,9 @@ FROM
     '../data/raw/raw_job_postings_*.parquet'
 WHERE
     error IS NULL;
+
+-- Downstream Flow: `dbt run --select job_postings+` builds this table and all its downstream dependencies.
+-- 
+-- Verify with:
+-- duckdb ../data/dev.duckdb
+-- SHOW TABLES;
