@@ -1,0 +1,67 @@
+models:
+  - name: job_postings
+    description: "Cleaned staging table containing 9 core columns. Excludes rows that failed during scraping."
+    config:
+      persist_docs: # pushes descriptions into the DuckDB-UI ('duckdb -ui ../data/dev.duckdb')
+        relation: true
+        columns: true
+    columns:
+      - name: job_id
+        description: "Unique identifier for the posting (note: re-scraped jobs may share an ID)."
+      - name: job_title
+        description: The title of the job as it appeared on the posting.
+      - name: company_name
+        description: The name of the hiring company.
+      - name: job_location
+        description: The location listed on the job posting.
+      - name: job_via
+        description: "The platform the job was found on, for example 'via LinkedIn'."
+      - name: job_schedule_type
+        description: "The schedule type (e.g., Full-time, Contract). Null if not specified."
+      - name: job_work_from_home
+        description: Boolean flag indicating if the job is remote (True/False).
+      - name: search_date
+        description: The date the job data was scraped.
+      - name: search_term
+        description: The role or keyword used to find this posting.
+
+  - name: jobs_per_month
+    description: Monthly aggregation showing the number of postings for each role.
+    config:
+      persist_docs: # pushes descriptions into the DuckDB-UI ('duckdb -ui ../data/dev.duckdb')
+        relation: true
+        columns: true
+    columns:
+      - name: month
+        description: The month of the posting, derived from search_date.
+      - name: role
+        description: The job role (derived from search_term).
+      - name: postings
+        description: Total number of postings for that role in that month.
+
+  - name: top_locations
+    description: The top 10 locations with the highest number of job postings.
+    config:
+      persist_docs: # pushes descriptions into the DuckDB-UI ('duckdb -ui ../data/dev.duckdb')
+        relation: true
+        columns: true
+    columns:
+      - name: job_location
+        description: The geographic location of the posting.
+      - name: postings
+        description: Total number of postings in that location.
+
+# Documentation Commands:
+# 1. Run `dbt docs generate` to update the docs snapshot after making changes.
+# 2. Run `dbt docs serve` to view the local documentation website.
+
+# Verify persisted column descriptions in DuckDB UI:
+#
+# SELECT 
+#   table_name, 
+#   column_name, 
+#   COLUMN_COMMENT 
+# FROM 
+#   information_schema.columns 
+# WHERE 
+#   table_name IN ('job_postings', 'jobs_per_month', 'top_locations');

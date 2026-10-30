@@ -1,0 +1,9 @@
+# dbt Source Configuration
+
+sources: # top level dbt keyword used to define a source
+  - name: raw # source name, used to reference this source in dbt models
+    tables:
+      - name: job_postings # table name, used to reference this table in dbt models
+        description: One row per job posting, raw from the pipeline.
+        config:
+          external_location: '../data/raw/raw_job_postings_*.parquet' # file path to the raw data
