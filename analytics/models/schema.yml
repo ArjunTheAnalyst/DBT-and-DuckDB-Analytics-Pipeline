@@ -12,6 +12,10 @@ models:
         description: "Unique identifier for the posting (note: re-scraped jobs may share an ID)."
       - name: job_title
         description: The title of the job as it appeared on the posting.
+        
+        data_tests:
+          - not_null # Ensure no job postings are loaded without a title
+      
       - name: company_name
         description: The name of the hiring company.
       - name: job_location
@@ -36,6 +40,10 @@ models:
     columns:
       - name: month
         description: The month of the posting, derived from search_date.
+        
+        data_tests:
+          - not_null # Ensure every month has a valid date and is never null
+      
       - name: role
         description: The job role (derived from search_term).
       - name: postings
@@ -50,6 +58,11 @@ models:
     columns:
       - name: job_location
         description: The geographic location of the posting.
+        
+        data_tests:
+          - unique  
+          - not_null # Ensure no duplicate locations are ranked and no nulls are present
+      
       - name: postings
         description: Total number of postings in that location.
 
@@ -62,6 +75,11 @@ models:
     columns:
       - name: month
         description: Year and month of the summary.
+        
+        data_tests:
+          - unique  
+          - not_null # Ensure every month appears exactly once and is never null
+      
       - name: total_postings
         description: All postings that month (summed from jobs_per_month).
       - name: remote_postings
@@ -90,3 +108,9 @@ models:
 
 # Check the size of the DuckDB database file:
 # ls -lh ../data/dev.duckdb
+
+# Run `dbt clean` to clear the cached files and start fresh
+
+# Run `dbt test` to execute data quality checks
+
+# dbt build = dbt seed + dbt run + dbt test
