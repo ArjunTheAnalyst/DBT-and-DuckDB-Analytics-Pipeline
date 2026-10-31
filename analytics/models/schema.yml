@@ -87,3 +87,6 @@ models:
 
 # dbt run = Compile + Execute.
 # dbt compile = Just Compile (for safe checking)
+
+# Check the size of the DuckDB database file:
+# ls -lh ../data/dev.duckdb

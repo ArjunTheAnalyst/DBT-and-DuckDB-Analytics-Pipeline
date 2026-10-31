@@ -8,3 +8,8 @@ macro-paths: ["macros"]
 clean-targets:
   - "target"
   - "dbt_packages"
+
+# Set the default materialization for all models in this project to physical tables (instead of views) unless stated otherwise
+models:
+  analytics:
+    +materialized: table

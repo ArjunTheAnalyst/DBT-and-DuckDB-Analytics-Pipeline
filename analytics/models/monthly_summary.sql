@@ -24,7 +24,7 @@ SELECT
     total_postings,
     remote_postings,
     ROUND(
-    (100 * remote_postings) / total_postings, 1) AS remote_percentage
+    (100 * remote_postings) / total_postings, 1) AS pct_remote
 FROM
     totals
 INNER JOIN

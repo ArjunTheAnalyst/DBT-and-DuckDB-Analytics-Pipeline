@@ -1,5 +1,8 @@
 -- Remove Scraper Errors and Select Core Columns
 
+-- Override project default in order to keep 'job_postings' as a view to avoid storage costs
+{{ config(materialized = 'view') }}
+
 SELECT
 	job_id,
 	job_title,
