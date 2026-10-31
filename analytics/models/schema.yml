@@ -1,3 +1,5 @@
+# Model Configurations and Documentation
+
 models:
   - name: job_postings
     description: "Cleaned staging table containing 9 core columns. Excludes rows that failed during scraping."
@@ -51,6 +53,23 @@ models:
       - name: postings
         description: Total number of postings in that location.
 
+  - name: monthly_summary # 'curl -sL lukeb.co/dbt-summary-yml >> models/schema.yml' used to generate this section
+    description: Monthly summary of job postings; one row per month.
+    config:
+      persist_docs: # pushes descriptions into the DuckDB-UI ('duckdb -ui ../data/dev.duckdb')
+        relation: true
+        columns: true
+    columns:
+      - name: month
+        description: Year and month of the summary.
+      - name: total_postings
+        description: All postings that month (summed from jobs_per_month).
+      - name: remote_postings
+        description: Postings flagged remote that month.
+      - name: pct_remote
+        description: Share of the month's postings flagged remote, percent.
+
+
 # Documentation Commands:
 # 1. Run `dbt docs generate` to update the docs snapshot after making changes.
 # 2. Run `dbt docs serve` to view the local documentation website.
@@ -65,3 +84,6 @@ models:
 #   information_schema.columns 
 # WHERE 
 #   table_name IN ('job_postings', 'jobs_per_month', 'top_locations');
+
+# dbt run = Compile + Execute.
+# dbt compile = Just Compile (for safe checking)
