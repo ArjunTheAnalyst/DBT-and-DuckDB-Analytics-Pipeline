@@ -26,3 +26,11 @@ jobs:
 # mkdir -p .github/workflows, (mkdir -p creates parent directories if they don't exist)
 # curl -sL lukeb.co/dbt-workflow -o .github/workflows/dbt_build.yml
 # `gh release upload warehouse data/prod.duckdb --clobber`: uploads the DuckDB database file to the GitHub release, overwriting any existing file with the same name
+
+# To verify the production database from the GitHub Release, run:
+# duckdb
+# INSTALL httpfs;
+# LOAD httpfs;
+# ATTACH 'link_to_github_release' AS jobs;
+# USE jobs;
+# SHOW TABLES;

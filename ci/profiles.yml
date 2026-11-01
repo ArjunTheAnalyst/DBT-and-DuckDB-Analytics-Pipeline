@@ -23,3 +23,6 @@ analytics: # name of the profile
 # Run `dbt debug` to test the database connection
 
 # dbt always looks for `profiles.yml`. --profiles-dir only changes the folder it searches in. (# dbt always looks for `profiles.yml`. --profiles-dir only changes the folder it searches in. (dbt build --profiles-dir ../ci)
+
+# Since the profiles.yml has been moved to the ci folder, we must use `--profiles-dir ../ci` to explicitly point dbt to it.
+# Earlier: dbt searched the profiles.yml in the home directory for local testing. Now: `--profiles-dir` points to the CI folder for production deployment.
