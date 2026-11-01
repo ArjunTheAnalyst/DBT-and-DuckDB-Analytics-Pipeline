@@ -1,0 +1,28 @@
+name: dbt build & publish
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 6 * * 1'    # Mondays — the pipeline runs while you sleep
+  workflow_dispatch:        # …and a manual Run button
+permissions:
+  contents: write           # lets the workflow update the release
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - run: uv run python scripts/download_data.py # Downloads the latest raw job data via the Python script
+      - run: uv run dbt build --profiles-dir ../ci # Runs dbt models and tests using the CI-specific profiles.yml
+        working-directory: analytics # Run this specific step inside the analytics folder
+      - run: |
+          gh release create warehouse --notes "Warehouse — auto-built by dbt" || true
+          gh release upload warehouse data/prod.duckdb --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+# mkdir -p .github/workflows, (mkdir -p creates parent directories if they don't exist)
+# curl -sL lukeb.co/dbt-workflow -o github/workflows/dbt_build.yml
+# `gh release upload warehouse data/prod.duckdb --clobber`: uploads the DuckDB database file to the GitHub release, overwriting any existing file with the same name
