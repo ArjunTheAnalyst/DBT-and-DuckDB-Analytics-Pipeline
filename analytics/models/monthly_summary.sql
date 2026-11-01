@@ -1,3 +1,4 @@
+-- Monthly Remote Work Percentage
 
 WITH totals AS
 (SELECT
