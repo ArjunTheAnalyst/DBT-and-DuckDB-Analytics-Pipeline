@@ -1,0 +1,25 @@
+# Acts as a bridge that connects dbt to the database
+
+analytics: # name of the profile
+  target: prod # environment to use for dbt run
+  outputs:
+    prod: # for production deployment
+      type: duckdb # adapter to use for dbt run
+      path: ../data/prod.duckdb # the path to save the database file
+      threads: 4 # runs 4 models at a time
+
+# analytics: # name of the profile
+#   target: dev # environment to use for dbt run
+#   outputs:
+#     dev: # for local testing and development
+#       type: duckdb # adapter to use for dbt run
+#       path: ../data/dev.duckdb # the path to save the database file
+#       threads: 1 # runs 1 model at a time
+#     prod: # for production deployment
+#       type: duckdb # adapter to use for dbt run
+#       path: ../data/prod.duckdb # the path to save the database file
+#       threads: 4 # runs 4 models at a time
+
+# Run `dbt debug` to test the database connection
+
+# dbt always looks for `profiles.yml`. --profiles-dir only changes the folder it searches in. (# dbt always looks for `profiles.yml`. --profiles-dir only changes the folder it searches in. (dbt build --profiles-dir ../ci)
