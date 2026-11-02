@@ -39,7 +39,7 @@ Running `dbt build` compiles the Jinja SQL, materializes all models, and automat
 
 ### 🚀 Production & CI/CD
 
-The entire pipeline is fully automated via **GitHub Actions** (defined in `.github/workflows/dbt_build.yml`), meaning it runs in the cloud with no local machine required.
+The entire pipeline is fully automated via **GitHub Actions** (defined in `.github/workflows/dbt_build.yml`); i.e, it runs in the cloud with no local machine required.
 
 **Workflow Triggers:**
 | Trigger | Action |
