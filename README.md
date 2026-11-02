@@ -29,10 +29,10 @@ Here is a breakdown of the specific dbt features implemented:
 
 | dbt Feature | How It Was Implemented |
 | :--- | :--- |
-| **Declared sources** | Raw parquet paths are defined in [_sources.yml](analytics\models\_sources.yml), eliminating the need to hardcode file locations in SQL. |
+| **Declared sources** | Raw parquet paths are defined in [_sources.yml](analytics/models/_sources.yml), eliminating the need to hardcode file locations in SQL. |
 | **Model dependencies** | `ref()` is used throughout the models, allowing dbt to automatically resolve execution order and run independent models in parallel. |
 | **Materializations** | The project default is set to `table` for fast querying, with an explicit override to `view` for the staging layer to save storage. |
-| **Data tests** | `unique` and `not_null` tests are added to the primary grains of the mart tables inside [schema.yml](analytics\models\schema.yml). |
+| **Data tests** | `unique` and `not_null` tests are added to the primary grains of the mart tables inside [schema.yml](analytics/models/schema.yml). |
 | **Environments** | The local `dev` target is separated from the CI `prod` target using the [ci/profiles.yml](ci/profiles.yml) file. |
 
 Running `dbt build` compiles the Jinja SQL, materializes all models, and automatically fails the run if any data tests fail. This exact same command is used both locally and in the CI pipeline.
