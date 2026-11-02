@@ -114,3 +114,6 @@ models:
 # Run `dbt test` to execute data quality checks
 
 # dbt build = dbt seed + dbt run + dbt test
+
+# Generate the documentation website using the CI profile, run: dbt docs generate --profiles-dir ../ci
+# To view the generated site, just run: dbt docs serve
