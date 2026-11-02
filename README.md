@@ -16,7 +16,7 @@
 | **Data Tests** | `unique` and `not_null` checks applied to key grains to ensure data quality. | [schema.yml](analytics/models/schema.yml) |
 | **Data Dictionary** | Column descriptions pushed directly into the DuckDB schema using `persist_docs`. | `dbt docs serve` |
 | **Environments** | Local development uses `dev.duckdb`; CI/CD uses a separate profile targeting `prod.duckdb`. | [ci/profiles.yml](ci/profiles.yml) |
-| **Automation (CI/CD)** | GitHub Actions runs the scraper, executes `dbt build`, and publishes the DB on push and weekly cron. | [dbt_build.yml](github/workflows/dbt_build.yml) |
+| **Automation (CI/CD)** | GitHub Actions runs the scraper, executes `dbt build`, and publishes the DB on push and weekly cron. | [dbt_build.yml](.github/workflows/dbt_build.yml) |
 | **Public Warehouse** | The final `prod.duckdb` is hosted on GitHub Releases, queryable via DuckDB `ATTACH` with no credentials. | GitHub Releases |
 
 ### ⚙️ The DBT Pipeline
