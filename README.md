@@ -2,7 +2,7 @@
 
 ![dbt_pipeline_image](images/dbt_pipeline.png)
 
-> A modern data pipeline that transforms raw job postings into a tested, structured data warehouse using **dbt and DuckDB**, fully automated via **GitHub Actions**.
+A modern data pipeline that transforms raw job postings into a tested, structured data warehouse using **dbt and DuckDB**, fully automated via **GitHub Actions**.
 
 - **Models data** into staging views and final Mart tables (`jobs_per_month`, `top_job_locations`, `monthly_summary`) using dbt's Jinja `ref()` for dependencies.
 - **Ensures data quality** with `unique` and `not_null` tests, and pushes column descriptions to the database using `persist_docs`.
@@ -14,7 +14,7 @@
 | :--- | :--- | :--- |
 | **dbt Pipeline** | Raw sources flow into a cleaned staging view, then into aggregated mart tables (`jobs_per_month`, `top_locations`, `remote_share`). | [analytics/models](analytics/models) |
 | **Data Tests** | `unique` and `not_null` checks applied to key grains to ensure data quality. | [schema.yml](analytics/models/schema.yml) |
-| **Data Dictionary** | Column descriptions pushed directly into the DuckDB schema using `persist_docs`. | `dbt docs serve` |
+| **Data Dictionary** | Column descriptions pushed directly into the DuckDB schema using `persist_docs`. | [dbt docs serve](https://arjuntheanalyst.github.io/DBT-and-DuckDB-Analytics-Pipeline/) |
 | **Environments** | Local development uses `dev.duckdb`; CI/CD uses a separate profile targeting `prod.duckdb`. | [ci/profiles.yml](ci/profiles.yml) |
 | **Automation (CI/CD)** | GitHub Actions runs the scraper, executes `dbt build`, and publishes the DB on push and weekly cron. | [dbt_build.yml](.github/workflows/dbt_build.yml) |
 | **Public Warehouse** | The final `prod.duckdb` is hosted on GitHub Releases, queryable via DuckDB `ATTACH` with no credentials. | GitHub Releases |
@@ -58,7 +58,7 @@ The entire pipeline is fully automated via **GitHub Actions** (defined in `.gith
 
 Interactive documentation is generated using `dbt docs generate` and hosted on **GitHub Pages**:
 
-🔗 **[View the Live dbt Docs Site](YOUR_GITHUB_PAGES_LINK_HERE)**
+🔗 **[View the Live dbt Docs Site](https://arjuntheanalyst.github.io/DBT-and-DuckDB-Analytics-Pipeline/)**
 
 The documentation site includes:
 *   The full interactive **lineage graph** (sources → models → marts).
@@ -69,3 +69,9 @@ The documentation site includes:
 1. The generated HTML and JSON files are exported from dbt's default `target/` folder into a root `docs/` folder. *(This step is required because GitHub Pages specifically looks for a `docs` folder on the main branch, not dbt's internal `target` folder).*
 2. GitHub Pages is configured to serve the website directly from that `/docs` directory.
 3. The moved files are verified locally by running `dbt docs serve --target-path ../docs` to ensure the site loads correctly before pushing to GitHub.
+
+### 🏁 Conclusion
+
+This project successfully built a fully automated Analytics Engineering pipeline. By integrating **Python** for ingestion, **dbt** for modular transformations and data testing, and **DuckDB** as the analytical warehouse, raw job market data is systematically modeled into clean, documented marts. 
+
+The entire workflow is automated via **GitHub Actions**, which handles the weekly data refresh, runs the build and test suite, and publishes both the final `prod.duckdb` database and the interactive dbt documentation site—making the final data and its lineage entirely public and accessible.
